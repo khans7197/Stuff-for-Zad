@@ -23,16 +23,16 @@ import random
 pygame.init()
 pygame.mixer.init()
 
-cars = []  # Creating empty list for words
+hardware = []  # Creating empty list for words
 
 # Opening text file with words and putting them in the list
-with open("cars.txt", "r") as file:
+with open("ComputerHardware.txt", "r") as file:
     lines = file.readlines()  # Reads all lines in the text file
-    for car in lines:
-        cars.append(car.replace('\n', ''))  # Puts each word in the file into the empty list
+    for parts in lines:
+        hardware.append(parts.replace('\n', ''))  # Puts each word in the file into the empty list
 
 # Choosing a random word for the user to guess
-choose_car = random.choice(cars)
+choose_parts = random.choice(hardware)
 
 # Creating all background images used during the game
 base = "Hangman1.png"
@@ -91,7 +91,7 @@ def text_display(word):
 def lose_screen():
     """Screen that will display if user loses"""
     lost = win_or_lose.render("YOU LOST!", True, RED, WHITE)
-    the_word = count.render("The word was: " + str(choose_car), True, GREEN)  # Shows the word being guessed
+    the_word = count.render("The word was: " + str(choose_parts), True, GREEN)  # Shows the word being guessed
     block = lost.get_rect()
     block.center = (380, 2.5*screen_size[1]/3)
     # Puts everything created on the screen
@@ -114,7 +114,7 @@ def win_screen():
 def word_placeholders():
     """Hyphens used as placeholders for the letters in the word being guessed"""
     global word
-    for i in range(len(choose_car)):  # Places hyphens for every letter in the length of the word
+    for i in range(len(choose_parts)):  # Places hyphens for every letter in the length of the word
         word += "_"
         word += " "  # Adds spaces between the hyphens
     text_display(word)  # Calling the text_display function
@@ -132,14 +132,14 @@ while running:
 
         if event.type == pygame.KEYDOWN:  # Checks for a user keyboard input
             typed_key = pygame.key.name(event.key)
-            if typed_key in choose_car:  # Checks if the inputted key is in the word being guessed
+            if typed_key in choose_parts:  # Checks if the inputted key is in the word being guessed
 
                 # Runs through the entire word
-                for index1 in range(len(choose_car)):
-                    if typed_key == choose_car[index1]:
+                for index1 in range(len(choose_parts)):
+                    if typed_key == choose_parts[index1]:
                         word = list(word)  # Puts the word in a list so indexes can be compared and switched
                         # The hyphen is replaced with the guessed letter
-                        word[index2] = choose_car[index1]
+                        word[index2] = choose_parts[index1]
                         word = "".join(word)  # The typed word is replaced with the empty string created before
 
                     index1 += 1  # Goes through all indexes in the word
@@ -149,14 +149,14 @@ while running:
                 index1 = 0
                 index2 = 0
 
-                if word.replace(" ", "") == choose_car:  # If all letters hae been guessed in the word
+                if word.replace(" ", "") == choose_parts:  # If all letters hae been guessed in the word
                     win_screen()  # Call the win screen function
                     pygame.time.delay(10000)  # Delays 10 seconds before the game quits
                     pygame.quit()
 
             # Checks if the inputted key is not in the word
             else:
-                if typed_key not in choose_car:
+                if typed_key not in choose_parts:
                     error_count += 1  # Adds 1 to error for each letter guessed wrong
 
                 if error_count == 1:
